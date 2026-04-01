@@ -13,4 +13,24 @@ apartmentsRouter.get('/', async (req, res) => {
   }
 });
 
+//add a new apartment
+apartmentsRouter.post('/', async (req, res) => {
+  const { title, description, price, location } = req.body;
+
+  try {
+    const apartment = new Apartment({
+      title,
+      description,
+      price,
+      location
+    });
+
+    const savedApartment = await apartment.save();
+    res.status(201).json(savedApartment);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
 module.exports = apartmentsRouter;

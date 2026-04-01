@@ -64,4 +64,29 @@ userRouter.post('/', async (req, res) => {
   }
 });
 
+//updating a user's favorites
+userRouter.put('/:id/favorites', async (req, res) => {
+  const { id } = req.params;
+  const { favorites } = req.body;
+
+  // Validate ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  }
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.favorites = favorites; // favorites is an array of apartment IDs
+    const updatedUser = await user.save();
+    res.json(updatedUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
 module.exports = userRouter;

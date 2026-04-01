@@ -1,6 +1,7 @@
 const express = require('express');
 const apartmentsRouter = require('./controllers/apartments.js');
 const userRouter = require('./controllers/user.js');
+const loginRouter = require('./controllers/login.js');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/apartments', apartmentsRouter);
-app.use('/api/users', userRouter);
+app.use('/api/user', userRouter);
+app.use('/api/login', loginRouter);
 
 module.exports = app;
